@@ -8,7 +8,7 @@ public class UICounter : MonoBehaviour
     [Tooltip("The Text component where the counter value should be shown")]
     [SerializeField] private TMPro.TMP_Text counterText;
 
-    private int counter = 0;
+    [SerializeField] private int counter = 10;
 
 
     
