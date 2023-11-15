@@ -15,7 +15,7 @@ public class RotationController : MonoBehaviour
 
     // Locks cursor on enable and unlocks on disable
     // Suggestion: Disable this component when entering a menu and enable when entering gameplay
-    /*private void OnEnable()
+   /* private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }

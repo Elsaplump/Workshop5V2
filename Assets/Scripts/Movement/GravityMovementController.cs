@@ -8,10 +8,11 @@ public class GravityMovementController : MonoBehaviour
 { 
     [SerializeField] private float speed = 2f;
     [SerializeField] private CharacterController controller;
-    [SerializeField] private Animator animator;
+    [SerializeField] private float jumpForce = 5f;
 
     private Vector2 moveInput;
     private Vector3 velocity;
+    private bool jumpInput;
     private bool wasGrounded;
     
     void Update()
@@ -21,6 +22,12 @@ public class GravityMovementController : MonoBehaviour
         velocity = transform.TransformDirection(TranslateInputToVelocity(moveInput));
         
         controller.Move(velocity * Time.deltaTime);
+
+        if (jumpInput)
+        {
+            velocity.y = jumpForce;
+            jumpInput = false;
+        }
 
         bool isGrounded = controller.isGrounded;
 
@@ -36,15 +43,6 @@ public class GravityMovementController : MonoBehaviour
         }
 
         wasGrounded = isGrounded;
-
-        if (controller.velocity.magnitude > 0)
-        {
-            animator.SetBool("Running", true);
-        }
-        else
-        {
-            animator.SetBool("Running", false);
-        }
     }
     
     private void ApplyGravity()
@@ -82,6 +80,16 @@ public class GravityMovementController : MonoBehaviour
         {
             Debug.Log("FIRE!");
             // Play fire-animation and/or trigger sound etc
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && wasGrounded)
+        {
+            Debug.Log("Jump!");
+            jumpInput = true;
+            // Jumps: Set animation parameters etc here
         }
     }
 }
