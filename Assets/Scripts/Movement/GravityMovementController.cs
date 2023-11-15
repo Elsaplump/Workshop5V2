@@ -7,11 +7,9 @@ using UnityEngine.InputSystem;
 public class GravityMovementController : MonoBehaviour
 { 
     [SerializeField] private float speed = 2f;
-    [SerializeField] private float jumpForce = 5f;
     [SerializeField] private CharacterController controller;
 
     private Vector2 moveInput;
-    private bool jumpInput;
     private Vector3 velocity;
     private bool wasGrounded;
     
@@ -25,12 +23,6 @@ public class GravityMovementController : MonoBehaviour
 
         bool isGrounded = controller.isGrounded;
 
-        // Apply jump-input:
-        if (jumpInput)
-        {
-            velocity.y = jumpForce;
-            jumpInput = false;
-        }
         // Check if character lost contact with ground this frame
         if (wasGrounded == true && isGrounded == false)
         {
@@ -56,7 +48,6 @@ public class GravityMovementController : MonoBehaviour
         else
         {
             velocity.y += Physics.gravity.y * Time.deltaTime;
-            
         }
     }
 
@@ -81,18 +72,6 @@ public class GravityMovementController : MonoBehaviour
         {
             Debug.Log("FIRE!");
             // Play fire-animation and/or trigger sound etc
-        }
-    }
-
-    // Handle Jump-input
-    // This method can be triggered through the UnityEvent in PlayerInput
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed && wasGrounded)
-        {
-            Debug.Log("Jump!");
-            jumpInput = true;
-            // Jumps: Set animation parameters etc here
         }
     }
 }
